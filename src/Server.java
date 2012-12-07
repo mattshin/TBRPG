@@ -1,23 +1,31 @@
 import java.net.*;
 import java.io.*;
 import static java.lang.System.*;
+import java.util.*;
 
 public class Server {
+    private final boolean DEBUG = true;
 
     private Socket socket = null;
     private ServerSocket server = null;
     private DataInputStream streamIn = null;
     private DataOutputStream streamOut = null;
 
+    public static void main(String args[]) {
+        Server server = new Server(19999);
+        server.open();
+        out.println(server.read());
+        server.close();
+    }
 
     public Server(int port){
         try {
-            out.println("Binding to port " + port + ", please wait  ...");
+            if (DEBUG)out.println("Binding to port " + port + ", please wait  ...");
             server = new ServerSocket(port);
-            out.println("Server started: " + server);
-            out.println("Waiting for a client ...");
+            if (DEBUG)out.println("Server started: " + server);
+            if (DEBUG)out.println("Waiting for a client ...");
             socket = server.accept();
-            out.println("Client accepted: " + socket);
+            if (DEBUG)out.println("Client accepted: " + socket);
         } catch (IOException ioe) {
             out.println(ioe);
         }
@@ -38,11 +46,8 @@ public class Server {
     }
     public void send(String w){
         try{
-           // out.println("begin write");
             streamOut.writeUTF(w);
-           // out.println("begin flush");
             streamOut.flush();
-           // out.println("end send");
         }catch (IOException e){
             err.println("Error Sending: "+e);
         }
