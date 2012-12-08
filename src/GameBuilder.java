@@ -27,17 +27,32 @@ public class GameBuilder extends JPanel{
 	private ArrayList<Unit> Purple = new ArrayList<Unit>();
 	
 	private boolean turn = true;
-	
-	public GameBuilder(boolean isServ, String ip, int port, int w, int l){
-	
+
+        public GameBuilder(boolean isServ, int port, int w, int l){
 		if(isServ){
 			server = new Server(port);
 			server.open();
-			//System.out.println(server.read());
+		}else{
+			client = new Client(port);
 		}
-		else{
-			client = new Client(ip, port);
-			
+		this.length = l;
+		this.width = w;
+
+		scale = 60 - 2* w;
+
+		tiles = new Unit[length][width];
+		canMove = new int[length+2][width+2];
+		canAttack = new boolean[length][width];
+
+		setPreferredSize(new Dimension(scale * (width +2),scale * (length +2)));
+	}
+	
+	public GameBuilder(boolean isServ, String ip, int port, int w, int l){
+		if(isServ){
+			server = new Server(port);
+			server.open();
+		}else{
+			client = new Client(ip, port);	
 		}
 		this.length = l;
 		this.width = w;
@@ -47,7 +62,6 @@ public class GameBuilder extends JPanel{
 		tiles = new Unit[length][width];
 		canMove = new int[length+2][width+2];
 		canAttack = new boolean[length][width];
-		
 		
 		setPreferredSize(new Dimension(scale * (width +2),scale * (length +2)));
 	}

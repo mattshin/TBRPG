@@ -44,8 +44,8 @@ public class Client {
     public String scan() throws UnknownHostException{
         String ip = InetAddress.getLocalHost().getHostAddress();
         String root = ip.substring(0,ip.lastIndexOf(46));
-        int s = Integer.parseInt(ip.substring(ip.lastIndexOf(46)));
-        for (int i=s-30;i<255;i++){
+        int s = Integer.parseInt(ip.substring(ip.lastIndexOf(46)+1));
+        for (int i=s-60;i<255;i++){
             boolean found = true;
             String p ="";
             try{
