@@ -1,6 +1,10 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
+import javax.imageio.ImageIO;
 
 import javax.swing.*;
 
@@ -307,6 +311,17 @@ private static void initializeUnits(GameBuilder game) {
 	public void paintComponent(Graphics g){
 		g.setColor(Colors.lightgrey);
 		g.fillRect(scale,scale, length*scale , width*scale);
+                BufferedImage field = null;
+                BufferedImage sword = null;
+                BufferedImage shield = null;
+                try {
+                    field = ImageIO.read(new File("board.png"));
+                    sword = ImageIO.read(new File("sword.png"));
+                    //shield = ImageIO.read(new File("shield.png"));
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+                g.drawImage(field, scale,scale, length*scale , width*scale, board);
 		
 		
 		for(int x = 0; x < width; x++){
@@ -319,15 +334,17 @@ private static void initializeUnits(GameBuilder game) {
 					
 					
 					if(tiles[x][y] instanceof Buff){
-						g.setColor(((Buff)tiles[x][y]).getColor());
-						g.fillRoundRect(scale*(x+1)+scale/2, scale*(length-y)+2*scale/5, scale/5, scale/5, scale/10, scale/10);
-					}
+						//g.setColor(((Buff)tiles[x][y]).getColor());
+						//g.fillRoundRect(scale*(x+1)+scale/2, scale*(length-y)+2*scale/5, scale/5, scale/5, scale/10, scale/10);
+                                                g.drawImage(((Buff)tiles[x][y]).getIcon(), scale*(x+1), scale*(length-y), scale, scale, board);
+                                        }
 					
 					if(tiles[x][y] instanceof Healer){
-						g.setColor(Colors.red);
-						g.fillRect(scale*(x+1)+(int)(3.8*scale/7), scale*(length-y)+11*scale/30, scale/10, 4*scale/13);
-						g.fillRect(scale*(x+1)+scale/7 + 2*scale/7, scale*(length-y)+6*scale/13, 2* scale/7, scale/10);
-					}			
+//						g.setColor(Colors.red);
+//						g.fillRect(scale*(x+1)+(int)(3.8*scale/7), scale*(length-y)+11*scale/30, scale/10, 4*scale/13);
+//						g.fillRect(scale*(x+1)+scale/7 + 2*scale/7, scale*(length-y)+6*scale/13, 2* scale/7, scale/10);
+                                                g.drawImage(((Healer)tiles[x][y]).getIcon(), scale*(x+1), scale*(length-y), scale, scale, board);
+                                        }
 					
 					g.setColor(Colors.green);
 					g.fillRect(scale*(x+1), scale*(length-y),  scale/7, scale);
@@ -351,7 +368,13 @@ private static void initializeUnits(GameBuilder game) {
 		check();
 		g.setColor(Colors.lightgrey);
 		g.fillRect(scale,scale, length*scale , width*scale);
-		
+		BufferedImage img = null;
+                try {
+                    img = ImageIO.read(new File("board.png"));
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+                g.drawImage(img, scale,scale, length*scale , width*scale, board);
 		
 		for(int x = 0; x < width; x++){
 			for(int y = 0; y < length; y++){
@@ -363,15 +386,15 @@ private static void initializeUnits(GameBuilder game) {
 					
 					
 					if(tiles[x][y] instanceof Buff){
-						g.setColor(((Buff)tiles[x][y]).getColor());
-						g.fillRoundRect(scale*(x+1)+scale/2, scale*(length-y)+2*scale/5, scale/5, scale/5, scale/10, scale/10);
-					}
+						g.drawImage(((Buff)tiles[x][y]).getIcon(), scale*(x+1), scale*(length-y), scale, scale, board);
+                                        }
 					
 					if(tiles[x][y] instanceof Healer){
-						g.setColor(Colors.red);
-						g.fillRect(scale*(x+1)+(int)(3.8*scale/7), scale*(length-y)+11*scale/30, scale/10, 4*scale/13);
-						g.fillRect(scale*(x+1)+scale/7 + 2*scale/7, scale*(length-y)+6*scale/13, 2* scale/7, scale/10);
-					}			
+//						g.setColor(Colors.red);
+//						g.fillRect(scale*(x+1)+(int)(3.8*scale/7), scale*(length-y)+11*scale/30, scale/10, 4*scale/13);
+//						g.fillRect(scale*(x+1)+scale/7 + 2*scale/7, scale*(length-y)+6*scale/13, 2* scale/7, scale/10);
+                                                g.drawImage(((Healer)tiles[x][y]).getIcon(), scale*(x+1), scale*(length-y), scale, scale, board);
+                                        }
 					
 					g.setColor(Colors.green);
 					g.fillRect(scale*(x+1), scale*(length-y),  scale/7, scale);

@@ -13,7 +13,6 @@ public class MAIN extends JPanel {
     private static JTextField serverIP = null;
     private static final int port = 19999;
 
-
     public MAIN(JFrame frame) {
         super(new BorderLayout());
         this.frame = frame;

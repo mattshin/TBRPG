@@ -1,4 +1,8 @@
 import java.awt.Color;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 
 
 public class DefenseBuff extends Buff {
@@ -6,10 +10,18 @@ public class DefenseBuff extends Buff {
 	private final int respawn = 2;
 	private final Color color = Colors.lightpink;
 	private int reward;
+        private  BufferedImage icon;
 	
 	public DefenseBuff(String n, int h, int str, int def, int reward) {
 		super(n, h, str, def);
 		setReward(reward);
+
+                try{
+                    icon = ImageIO.read(new File("shield.png"));
+                }catch (Exception e){
+                    //icon = null;
+                    System.err.println("Error: "+e);
+                }
 	}
 
 	
@@ -21,6 +33,12 @@ public class DefenseBuff extends Buff {
 	public int getRespawn() {
 		return respawn;
 	}
+
+        public BufferedImage getIcon(){
+
+                return icon;
+
+        }
 
 
 	public Color getColor() {

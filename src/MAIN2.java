@@ -12,7 +12,6 @@ public class MAIN2 {
 		String ip = "127.0.0.1";//in.nextLine();
 		GameBuilder game = new GameBuilder(false, ip, 19999, 9, 9);
 		game.run();
-
 	}
 
 }

@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.image.BufferedImage;
 
 
 public abstract class Buff extends RangedUnit {
@@ -16,7 +17,10 @@ public abstract class Buff extends RangedUnit {
 	public Color getColor() {
 		return color;
 	}
-	
+
+        public BufferedImage getIcon(){
+            return null;
+        }
 
 
 }
