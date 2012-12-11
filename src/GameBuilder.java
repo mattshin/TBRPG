@@ -386,14 +386,14 @@ private static void initializeUnits(GameBuilder game) {
 					
 					
 					if(tiles[x][y] instanceof Buff){
-						g.drawImage(((Buff)tiles[x][y]).getIcon(), scale*(x+1), scale*(length-y), scale, scale, board);
+						g.drawImage(tiles[x][y].getIcon(), scale*(x+1), scale*(length-y), scale, scale, board);
                                         }
 					
 					if(tiles[x][y] instanceof Healer){
 //						g.setColor(Colors.red);
 //						g.fillRect(scale*(x+1)+(int)(3.8*scale/7), scale*(length-y)+11*scale/30, scale/10, 4*scale/13);
 //						g.fillRect(scale*(x+1)+scale/7 + 2*scale/7, scale*(length-y)+6*scale/13, 2* scale/7, scale/10);
-                                                g.drawImage(((Healer)tiles[x][y]).getIcon(), scale*(x+1), scale*(length-y), scale, scale, board);
+                                                g.drawImage(tiles[x][y].getIcon(), scale*(x+1), scale*(length-y), scale, scale, board);
                                         }
 					
 					g.setColor(Colors.green);

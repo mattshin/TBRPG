@@ -11,17 +11,6 @@ public class Healer extends Unit {
 
 	public Healer(String n, int h, int str, int def, int mov) {
 		super(n, h, -str, def, mov);
-                try{
-                    icon = ImageIO.read(new File("cross.png"));
-                }catch (Exception e){
-                    //icon = null;
-                    System.err.println("Error: "+e);
-                }
+                setIcon("cross.png");
 	}
-        public BufferedImage getIcon(){
-
-                return icon;
-
-        }
-
 }

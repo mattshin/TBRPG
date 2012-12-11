@@ -6,7 +6,6 @@ import javax.imageio.ImageIO;
 
 
 public class StrengthBuff extends Buff {
-
 	private final int respawn = 2;
 	private final Color color = Colors.yellow;
 	private int reward;
@@ -16,13 +15,7 @@ public class StrengthBuff extends Buff {
 		super(n, h, str, def);
                // icon = null;
 		setReward(reward);
-
-                try{
-                    icon = ImageIO.read(new File("sword.png"));
-                }catch (IOException e){
-                    //icon = null;
-                    System.err.println("Error: "+e);
-            }
+                setIcon("sword.png");
 	}
 
 	public void onDeathBy(Unit u) {
@@ -33,12 +26,6 @@ public class StrengthBuff extends Buff {
 	public int getRespawn() {
 		return respawn;
 	}
-
-        public BufferedImage getIcon(){
-
-                return icon;
-
-        }
 
 	public Color getColor() {
 		return color;

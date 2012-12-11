@@ -15,42 +15,20 @@ public class DefenseBuff extends Buff {
 	public DefenseBuff(String n, int h, int str, int def, int reward) {
 		super(n, h, str, def);
 		setReward(reward);
-
-                try{
-                    icon = ImageIO.read(new File("shield.png"));
-                }catch (Exception e){
-                    //icon = null;
-                    System.err.println("Error: "+e);
-                }
+                setIcon("shield.png");
 	}
-
-	
 	public void onDeathBy(Unit u) {
 		u.setDefense(u.getDefense()+reward);
 	}
-
-
 	public int getRespawn() {
 		return respawn;
 	}
-
-        public BufferedImage getIcon(){
-
-                return icon;
-
-        }
-
-
 	public Color getColor() {
 		return color;
 	}
-
-
 	public int getReward() {
 		return reward;
 	}
-
-
 	public void setReward(int reward) {
 		this.reward = reward;
 	}
