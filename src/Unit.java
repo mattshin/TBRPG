@@ -32,6 +32,7 @@ public class Unit {
         setStrength(str);
         setDefense(def);
         setMovement(mov);
+        //setIcon("bro.png");
     }
 
     public void attack(Unit u) {
