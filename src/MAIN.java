@@ -51,7 +51,7 @@ public class MAIN extends JPanel {
                 myframe.dispose();
                 Thread runner = new Thread(){
                     public void run() {
-                       GameBuilder game = new GameBuilder(true, "", port, 9, 9);
+                        GameBuilder game = new GameBuilder(true, "", port, 9, 9);
                         game.run();
                     }
                 };
@@ -101,18 +101,18 @@ public class MAIN extends JPanel {
         box.setLayout(new BoxLayout(box, BoxLayout.PAGE_AXIS));
         box.add(label);
         box.add(new JLabel("\n"));
+        String ip = "";
+        try{
+            ip = InetAddress.getLocalHost().getHostAddress();
+        }catch (Exception e){
+            System.err.println("Error: "+e.getMessage());
+        }
 
         if (t==0){//server
-            String ip = "";
-            try{
-                ip = InetAddress.getLocalHost().getHostAddress();
-            }catch (Exception e){
-                System.err.println("Error: "+e.getMessage());
-            }
             box.add(new JLabel("Your IP: "+ip));
         }else if (t==1){//client
             box.add(new JLabel("Server IP:"));
-            serverIP = new JTextField("");
+            serverIP = new JTextField(ip);
             box.add(serverIP);
         }else if (t==2){//about
             box.add(new JLabel("Game Engine:"));

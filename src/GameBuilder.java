@@ -15,25 +15,29 @@ public class GameBuilder extends JPanel {
     private JFrame board = new JFrame("TBRPG");
     private int length;
     private int width;
-    private Unit[][] tiles;
+    private int scale;
+    private boolean turn = true;
     private boolean selected = false;
     private boolean moved = false;
     private boolean attack = false;
+    private BufferedImage field = null;
     private Unit currUnit = new Unit();
-    private int scale;
     private Server server;
     private Client client;
+    private Unit[][] tiles;
     private int[][] canMove;
     private boolean[][] canAttack;
     private ArrayList<Unit> Blue = new ArrayList<Unit>();
     private ArrayList<Unit> Purple = new ArrayList<Unit>();
-    private boolean turn = true;
 
+    //not used, scans for ip
     public GameBuilder(boolean isServ, int port, int w, int l) {
         if (isServ) {
+            board.setTitle(board.getTitle()+" - Server");
             server = new Server(port);
             server.open();
         } else {
+            board.setTitle(board.getTitle()+" - Client");
             client = new Client(port);
         }
         this.length = l;
@@ -44,20 +48,27 @@ public class GameBuilder extends JPanel {
         tiles = new Unit[length][width];
         canMove = new int[length + 2][width + 2];
         canAttack = new boolean[length][width];
-
+        
         setPreferredSize(new Dimension(scale * (width + 2), scale * (length + 2)));
+        
+        try{
+            field = ImageIO.read(new File("board.png"));
+        }catch(IOException ex){
+            ex.printStackTrace();
+        }
     }
 
     public GameBuilder(boolean isServ, String ip, int port, int w, int l) {
         if (isServ) {
+            board.setTitle(board.getTitle()+" - Server");
             server = new Server(port);
             server.open();
         } else {
+            board.setTitle(board.getTitle()+" - Client");
             client = new Client(ip, port);
         }
-        this.length = l;
-        this.width = w;
-
+        length = l;
+        width = w;
         scale = 60 - 2 * w;
 
         tiles = new Unit[length][width];
@@ -65,10 +76,15 @@ public class GameBuilder extends JPanel {
         canAttack = new boolean[length][width];
 
         setPreferredSize(new Dimension(scale * (width + 2), scale * (length + 2)));
+        
+        try{
+            field = ImageIO.read(new File("board.png"));
+        }catch(IOException ex){
+            ex.printStackTrace();
+        }
     }
 
     private static void initializeUnits(GameBuilder game) {
-
         Unit[] bros = new Unit[10];
         for (int i = 0; i < bros.length; i++) {
             bros[i] = new Unit("BRO", 20, 6, 2, 3);
@@ -111,7 +127,6 @@ public class GameBuilder extends JPanel {
         board.setVisible(true);
         initializeUnits(this);
         board.addMouseListener(new MouseListener() {
-
             public void mouseReleased(MouseEvent e) {
                 int x = e.getX() / scale - 1;
                 int y = width - (e.getY() - scale / 2) / scale;
@@ -122,24 +137,13 @@ public class GameBuilder extends JPanel {
                     client.send(x + " " + y);
                     act(x, y);
                 }
-
             }
-
-            public void mousePressed(MouseEvent e) {
-            }
-
-            public void mouseExited(MouseEvent e) {
-            }
-
-            public void mouseEntered(MouseEvent e) {
-            }
-
-            public void mouseClicked(MouseEvent e) {
-            }
+            public void mousePressed(MouseEvent e) {}
+            public void mouseExited(MouseEvent e) {}
+            public void mouseEntered(MouseEvent e) {}
+            public void mouseClicked(MouseEvent e) {}
         });
-
         while (true) {
-
             if (server == null && turn) {
                 //System.out.println("your turn");
                 String[] read = client.read().split(" ");
@@ -217,7 +221,6 @@ public class GameBuilder extends JPanel {
     }
 
     private void move(Unit u, int x, int y) {
-
         tiles[u.getX()][u.getY()] = null;
         tiles[x][y] = u;
         u.setX(x);
@@ -318,18 +321,7 @@ public class GameBuilder extends JPanel {
     public void paintComponent(Graphics g) {
         g.setColor(Colors.lightgrey);
         g.fillRect(scale, scale, length * scale, width * scale);
-        BufferedImage field = null;
-        BufferedImage sword = null;
-        BufferedImage shield = null;
-        try {
-            field = ImageIO.read(new File("board.png"));
-            sword = ImageIO.read(new File("sword.png"));
-            //shield = ImageIO.read(new File("shield.png"));
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
         g.drawImage(field, scale, scale, length * scale, width * scale, board);
-
 
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < length; y++) {
@@ -339,17 +331,11 @@ public class GameBuilder extends JPanel {
                             : (tiles[x][y].getTeam() ? Colors.lightblue : Colors.lightpurple));
                     g.fillRect(scale * (x + 1), scale * (length - y), scale, scale);
 
-
                     if (tiles[x][y] instanceof Buff) {
-                        //g.setColor(((Buff)tiles[x][y]).getColor());
-                        //g.fillRoundRect(scale*(x+1)+scale/2, scale*(length-y)+2*scale/5, scale/5, scale/5, scale/10, scale/10);
                         g.drawImage(((Buff) tiles[x][y]).getIcon(), scale * (x + 1), scale * (length - y), scale, scale, board);
                     }
 
                     if (tiles[x][y] instanceof Healer) {
-//						g.setColor(Colors.red);
-//						g.fillRect(scale*(x+1)+(int)(3.8*scale/7), scale*(length-y)+11*scale/30, scale/10, 4*scale/13);
-//						g.fillRect(scale*(x+1)+scale/7 + 2*scale/7, scale*(length-y)+6*scale/13, 2* scale/7, scale/10);
                         g.drawImage(((Healer) tiles[x][y]).getIcon(), scale * (x + 1), scale * (length - y), scale, scale, board);
                     }
 
@@ -363,7 +349,6 @@ public class GameBuilder extends JPanel {
                 }
             }
         }
-
         g.setColor(Colors.black);
         for (int i = 1; i <= width + 1; i++) {
             g.drawLine(scale, scale * i, scale * (width + 1), scale * i);
@@ -375,13 +360,7 @@ public class GameBuilder extends JPanel {
         check();
         g.setColor(Colors.lightgrey);
         g.fillRect(scale, scale, length * scale, width * scale);
-        BufferedImage img = null;
-        try {
-            img = ImageIO.read(new File("board.png"));
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-        g.drawImage(img, scale, scale, length * scale, width * scale, board);
+        g.drawImage(field, scale, scale, length * scale, width * scale, board);
 
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < length; y++) {
