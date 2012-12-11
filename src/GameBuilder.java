@@ -333,10 +333,11 @@ public class GameBuilder extends JPanel {
 
                     if (tiles[x][y] instanceof Buff) {
                         g.drawImage(tiles[x][y].getIcon(), scale * (x + 1), scale * (length - y), scale, scale, board);
-                    }else if (tiles[x][y] instanceof Healer) {
+                    }
+                    if (tiles[x][y] instanceof Healer) {
                         g.drawImage(tiles[x][y].getIcon(), scale * (x + 1), scale * (length - y), scale, scale, board);
-                    }else{
-                        g.drawImage(tiles[x][y].getIcon(), scale * (x + 1), scale * (length - y), scale, scale, board);
+                    }else{ //bro
+                        //g.drawImage(tiles[x][y].getIcon(), scale * (x + 1), scale * (length - y), scale, scale, board);
                     }
                     g.setColor(Colors.green);
                     g.fillRect(scale * (x + 1), scale * (length - y), scale / 7, scale);
